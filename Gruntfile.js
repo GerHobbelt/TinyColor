@@ -4,9 +4,12 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     meta: {
-      banner: '// TinyColor v<%= pkg.version %>\n' +
-        '// https://github.com/bgrins/TinyColor\n' +
-        '// <%= grunt.template.today("yyyy-mm-dd") %>, Brian Grinstead, MIT License\n'
+      banner: '// TinyTinyColor v<%= pkg.version %>\n' +
+        '// https://github.com/autopulated/TinyTinyColor\n' +
+        '// 2013-08-10, Brian Grinstead, Brian Grinstead, MIT License\n' +
+        '// <%= grunt.template.today("yyyy-mm-dd") %>, James Crosby, MIT License\n'+
+        '//'+
+        '// Like TinyColor, but even smaller (who uses named colours anyway)'
     },
 
     uglify: {
@@ -16,7 +19,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/tinycolor-min.js': ['tinycolor.js']
+          'dist/tinytinycolor-min.js': ['tinytinycolor.js']
         }
       }
     },
@@ -34,12 +37,12 @@ module.exports = function(grunt) {
           jQuery: true
         }
       },
-      all: ['tinycolor.js']
+      all: ['tinytinycolor.js']
     },
 
     docco: {
       debug: {
-        src: ['tinycolor.js'],
+        src: ['tinytinycolor.js'],
         options: {
           output: 'docs/'
         }

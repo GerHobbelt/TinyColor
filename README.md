@@ -4,55 +4,49 @@
 
 Fast, small color manipulation and conversion for JavaScript.  TinyColor is allows many forms of input, while providing color conversions and other color utility functions.  It has no dependancies.
 
-[![Build Status](https://travis-ci.org/bgrins/TinyColor.png?branch=master)](https://travis-ci.org/bgrins/TinyColor)
+[![Build Status](https://travis-ci.org/autopulated/TinyTinyColor.png?branch=master)](https://travis-ci.org/autopulated/TinyTinyColor)
 
 ## Supported Color Types
 
 ### Hex, 8-digit (ARGB) Hex
 
-    tinycolor("#000");
-    tinycolor("000");
-    tinycolor("#f0f0f6");
-    tinycolor("f0f0f6");
-    tinycolor("#88f0f0f6");
-    tinycolor("88f0f0f6");
+    tinytinycolor("#000");
+    tinytinycolor("000");
+    tinytinycolor("#f0f0f6");
+    tinytinycolor("f0f0f6");
+    tinytinycolor("#88f0f0f6");
+    tinytinycolor("88f0f0f6");
 
 ### RGB, RGBA
 
-    tinycolor("rgb (255, 0, 0)");
-    tinycolor("rgb 255 0 0");
-    tinycolor("rgba (255, 0, 0, .5)");
-    tinycolor({ r: 255, g: 0, b: 0 });
-    tinycolor.fromRatio({ r: 1, g: 0, b: 0 });
-    tinycolor.fromRatio({ r: .5, g: .5, b: .5 });
+    tinytinycolor("rgb (255, 0, 0)");
+    tinytinycolor("rgb 255 0 0");
+    tinytinycolor("rgba (255, 0, 0, .5)");
+    tinytinycolor({ r: 255, g: 0, b: 0 });
+    tinytinycolor.fromRatio({ r: 1, g: 0, b: 0 });
+    tinytinycolor.fromRatio({ r: .5, g: .5, b: .5 });
 
 ### HSL, HSLA
 
-    tinycolor("hsl(0, 100%, 50%)");
-    tinycolor("hsla(0, 100%, 50%, .5)");
-    tinycolor("hsl(0, 100%, 50%)");
-    tinycolor("hsl 0 1.0 0.5");
-    tinycolor({ h: 0, s: 1, l: .5 });
+    tinytinycolor("hsl(0, 100%, 50%)");
+    tinytinycolor("hsla(0, 100%, 50%, .5)");
+    tinytinycolor("hsl(0, 100%, 50%)");
+    tinytinycolor("hsl 0 1.0 0.5");
+    tinytinycolor({ h: 0, s: 1, l: .5 });
 
 ### HSV, HSVA
 
-    tinycolor("hsv(0, 100%, 100%)");
-    tinycolor("hsva(0, 100%, 100%, .5)");
-    tinycolor("hsv (0 100% 100%)");
-    tinycolor("hsv 0 1 1");
-    tinycolor({ h: 0, s: 100, v: 100 });
-
-### Named
-
-    tinycolor("RED");
-    tinycolor("blanchedalmond");
-    tinycolor("darkblue");
+    tinytinycolor("hsv(0, 100%, 100%)");
+    tinytinycolor("hsva(0, 100%, 100%, .5)");
+    tinytinycolor("hsv (0 100% 100%)");
+    tinytinycolor("hsv 0 1 1");
+    tinytinycolor({ h: 0, s: 100, v: 100 });
 
 ## Using in a browser
 
-    <script type='text/javascript' src='tinycolor.js'></script>
+    <script type='text/javascript' src='tinytinycolor.js'></script>
     <script type='text/javascript'>
-    var t = tinycolor("red");
+    var t = tinytinycolor("#ff0000");
 
     t.toHex() // "ff0000"
     t.toHexString() // "#ff0000"
@@ -73,16 +67,16 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
 
 ## Using in node
 
-`tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
+`tinytinycolor` may also be included as a [node](http://nodejs.org/) module like so:
 
 ```
-npm install tinycolor2
+npm install tinytinycolor
 ```
 
 Then it can be used:
 
 ```js
-var tinycolor = require("./tinycolor");
+var tinytinycolor = require("./tinytinycolor");
 ```
 
 ### Accepted String Input
@@ -97,7 +91,6 @@ If you call `tinycolor.fromRatio`, RGB input can also accept 0-1
 Here are some examples of string input:
 
 ```
-red
 #fff
 fff
 #ffffff
@@ -107,12 +100,9 @@ ffffffff
 rgb(255, 0, 0)
 rgb 255 0 0
 hsl(0, 100, 50)
-hsl(0, 100%, 50%)
 hsl 0 100 50
-hsl 0 100% 50%
 hsv(0, 100%, 100%)
 hsv(0, 100, 100)
-hsv 0 100% 100%
 hsv 0 100 100
 ```
 
@@ -153,18 +143,3 @@ Combination functions return an Array of TinyColor objects.
     tinycolor.triad(color)
     tinycolor.tetrad(color)
 
-### Readability
-
-Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
-
-    tinycolor.readability(color1, color2);
-
-Ensure that foreground and background color combinations provide sufficient contrast.
-
-    tinycolor.readable(color1, color2);
-
-Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
-
-    tinycolor.mostReadable(baseColor, colorList);
-
-See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.

@@ -7,11 +7,11 @@
 
 	<link rel="stylesheet" href="demo/demo.css" type="text/css" media="screen" />
 	<script type='text/javascript' src='demo/jquery-1.9.1.js'></script>
-	<script type='text/javascript' src='tinycolor.js'></script>
+	<script type='text/javascript' src='tinytinycolor.js'></script>
 	<script type='text/javascript'>
 
 		function colorChange(color) {
-			var tiny = tinycolor(color);
+			var tiny = tinytinycolor(color);
 
 			var output = [
 				"hex:\t" + tiny.toHexString(),
@@ -19,7 +19,6 @@
 				"rgb:\t" + tiny.toRgbString(),
 				"hsl:\t" + tiny.toHslString(),
 				"hsv:\t" + tiny.toHsvString(),
-				"name:\t" + (tiny.toName() || "none"),
 				"format:\t" + (tiny.format),
 				"format string:\t" + tiny.toString(),
 			].join("\n");
@@ -48,11 +47,6 @@
 			for (var i in tinycolor.names) {
 				allColors.push(i);
 			}
-			var mostReadable = tinycolor.mostReadable(color, allColors);
-
-			$("#mostReadable").css("background-color",
-			     mostReadable.toHexString()
-			 );
 
 			 var combines = $("#combine-output").toggleClass("invisible", !tiny.ok);
 
@@ -113,7 +107,7 @@
 	<p>Read all the documentation on the <a href='https://github.com/bgrins/TinyColor'>TinyColor project page</a> on github.</p>
 
 	<h3>Code</h3>
-	<p><a href='docs/tinycolor.html'>View the annotated source code</a> or <a href='https://github.com/bgrins/TinyColor/blob/master/tinycolor.js'>see the full source on github</a>.</p>
+	<p><a href='docs/tinytinycolor.html'>View the annotated source code</a> or <a href='https://github.com/autopulated/TinyColor/blob/master/tinytinycolor.js'>see the full source on github</a>.</p>
 
 	<h3>Tests</h3>
 	<p><a href='test/'>View the QUnit Tests</a>.</p>
@@ -159,10 +153,6 @@
 	           <th>Greyscale</th>
 	           <td><div class='greyscale'></div></td>
 	       </tr>
-	       <tr>
-	           <th>Most Readable</th>
-	           <td><div id='mostReadable'></div></td>
-	       </tr>
 	   </table>
     </div>
 
@@ -190,7 +180,7 @@
 
 	<h3>Credit</h3>
 	<p>
-	   Developed by <a href='http://briangrinstead.com'>Brian Grinstead</a>.  Big thanks to the following places:
+    Based on <a href="http://bgrins.github.io/TinyColor/">TinyColor</a> Developed by <a href='http://briangrinstead.com'>Brian Grinstead</a>.  Big thanks to the following places:
 	</p>
 	<ul>
 	   <li><a href='https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js'>less.js</a> for some of the modification functions</li>
