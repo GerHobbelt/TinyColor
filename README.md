@@ -1,8 +1,8 @@
-# TinyColor
+# TinyTinyColor
 
 ## JavaScript color parsing
 
-Fast, small color manipulation and conversion for JavaScript.  TinyColor is allows many forms of input, while providing color conversions and other color utility functions.  It has no dependancies.
+Fast, small color manipulation and conversion for JavaScript.  TinyTinyColor is allows many forms of input, while providing color conversions and other color utility functions.  It has no dependancies.
 
 [![Build Status](https://travis-ci.org/autopulated/TinyTinyColor.png?branch=master)](https://travis-ci.org/autopulated/TinyTinyColor)
 
@@ -134,7 +134,7 @@ Modification functions may take an `amount` variable from 0 - 100, indicating ho
 
 ### Color Combinations
 
-Combination functions return an Array of TinyColor objects.
+Combination functions return an Array of TinyTinyColor objects.
 
     tinycolor.analogous(color, results = 6, slices = 30)
     tinycolor.complement(color)
