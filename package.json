@@ -1,5 +1,5 @@
 {
-  "version": "0.0.0",
+  "version": "0.0.1",
   "name": "tinytinycolor",
   "description": "Even Tinier Color Parsing and Manipulation",
   "url": "https://github.com/autopulated/TinyTinyColor",
@@ -14,7 +14,10 @@
     "tinytinycolor"
   ],
   "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
-  "contributors": ["Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)", "James Crosby <autopulated@gmail.com>"],
+  "contributors": [
+    "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
+    "James Crosby <autopulated@gmail.com>"
+  ],
   "main": "./tinytinycolor.js",
   "directories": {},
   "engines": {
