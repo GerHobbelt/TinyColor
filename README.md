@@ -92,7 +92,7 @@ HSL and HSV both require either 0%-100% or 0-1.
 
 RGB input requires either 0-255 or 0%-100%.
 
-If you call `tinycolor.fromRatio`, RGB input can also accept 0-1
+If you call `tinytinycolor.fromRatio`, RGB input can also accept 0-1
 Here are some examples of string input:
 
 ```
@@ -125,26 +125,26 @@ If you are calling this from code, you may want to use object input.  Here are e
 
 ## Color Utilities
 
-    tinycolor.equals(color1, color2)
+    tinytinycolor.equals(color1, color2)
 
 ### Color Modification
 
 Modification functions may take an `amount` variable from 0 - 100, indicating how much the effect should be applied.
 
-    tinycolor.lighten(color, amount = 10)
-    tinycolor.darken(color, amount = 10)
-    tinycolor.desaturate(color, amount = 10)
-    tinycolor.saturate(color, amount = 10)
-    tinycolor.greyscale(color)
+    tinytinycolor.lighten(color, amount = 10)
+    tinytinycolor.darken(color, amount = 10)
+    tinytinycolor.desaturate(color, amount = 10)
+    tinytinycolor.saturate(color, amount = 10)
+    tinytinycolor.greyscale(color)
 
 ### Color Combinations
 
 Combination functions return an Array of TinyTinyColor objects.
 
-    tinycolor.analogous(color, results = 6, slices = 30)
-    tinycolor.complement(color)
-    tinycolor.monochromatic(color, results = 6)
-    tinycolor.splitcomplements(color)
-    tinycolor.triad(color)
-    tinycolor.tetrad(color)
+    tinytinycolor.analogous(color, results = 6, slices = 30)
+    tinytinycolor.complement(color)
+    tinytinycolor.monochromatic(color, results = 6)
+    tinytinycolor.splitcomplements(color)
+    tinytinycolor.triad(color)
+    tinytinycolor.tetrad(color)
 
