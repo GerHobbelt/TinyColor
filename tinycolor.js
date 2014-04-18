@@ -2,7 +2,23 @@
 // https://github.com/bgrins/TinyColor
 // 2013-08-10, Brian Grinstead, MIT License
 
-(function() {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define([], function () {
+            return factory();
+        });
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals
+        root.tinycolor = factory();
+    }
+}(this, function () {
+
 
 var trimLeft = /^[\s,#]+/,
     trimRight = /\s+$/,
@@ -954,17 +970,6 @@ function stringInputToObject(color) {
     return false;
 }
 
-// Node: Export function
-if (typeof module !== "undefined" && module.exports) {
-    module.exports = tinycolor;
-}
-// AMD/requirejs: Define the module
-else if (typeof define === 'function' && define.amd) {
-    define(function () {return tinycolor;});
-}
-// Browser: Expose to window
-else {
-    window.tinycolor = tinycolor;
-}
+return tinycolor;
 
-})();
+}));
