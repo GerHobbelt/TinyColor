@@ -5,4 +5,14 @@
   "main": "tinycolor.js",
   "scripts": ["tinycolor.js"],
   "license": "MIT"
+  }
+  "dependencies": {
+  },
+  "ignore": [
+    "test",
+    "Rakefile",
+    "Gruntfile.js",
+    "demo",
+    "docs"
+  ]
 }
