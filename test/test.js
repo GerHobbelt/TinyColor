@@ -655,13 +655,16 @@ test("Modifications", function () {
 });
 
 test("Spin", function () {
-    equal (Math.round(tinycolor("#f00").spin(-1234).toHsl().h), 206, "Spinning -1234 works");
     equal (Math.round(tinycolor("#f00").spin(-360).toHsl().h), 0, "Spinning -360 works");
+    equal (Math.round(tinycolor("#f00").spin(-1234).toHsl().h), 206, "Spinning -1234 works");
     equal (Math.round(tinycolor("#f00").spin(-120).toHsl().h), 240, "Spinning -120 works");
     equal (Math.round(tinycolor("#f00").spin(0).toHsl().h), 0, "Spinning 0 works");
     equal (Math.round(tinycolor("#f00").spin(10).toHsl().h), 10, "Spinning 10 works");
     equal (Math.round(tinycolor("#f00").spin(360).toHsl().h), 0, "Spinning 360 works");
     equal (Math.round(tinycolor("#f00").spin(2345).toHsl().h), 185, "Spinning 2345 works");
+
+    // can spin hue by < 0.5
+    equal (tinycolor("#f00").spin(0.4).toHsl().h, 0.4, "Spinning by 0.4 works");
 });
 
 test("Mix", function () {
