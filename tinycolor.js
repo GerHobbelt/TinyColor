@@ -18,7 +18,7 @@
         root.tinycolor = factory();
     }
 }(this, function () {
-
+"use strict";
 
 var trimLeft = /^[\s,#]+/,
     trimRight = /\s+$/,
@@ -29,7 +29,7 @@ var trimLeft = /^[\s,#]+/,
     mathMax = math.max,
     mathRandom = math.random;
 
-function tinycolor (color, opts) {
+var tinycolor = function (color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
@@ -1145,7 +1145,7 @@ function stringInputToObject(color) {
     }
 
     return false;
-}
+};
 
 function validateWCAG2Parms(parms) {
     // return valid WCAG2 parms for isReadable.
