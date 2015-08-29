@@ -463,6 +463,34 @@ test("HSL String", function() {
     }
 });
 
+test("HSWL Object", function() {
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      var input = tiny.toRgb();
+      var output = tinycolor(tiny.toHswl()).toRgb();
+      var maxDiff = 2;
+
+      equal (Math.abs(input.r - output.r) <= maxDiff, true, "toHswl red value difference <= " + maxDiff);
+      equal (Math.abs(input.g - output.g) <= maxDiff, true, "toHswl green value difference <= " + maxDiff);
+      equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHswl blue value difference <= " + maxDiff);
+    }
+});
+
+test("HSWL String", function() {
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      var input = tiny.toRgb();
+      var output = tinycolor(tiny.toHswlString()).toRgb();
+      var maxDiff = 10; // rounding introduces some extra error margin here
+
+      equal (Math.abs(input.r - output.r) <= maxDiff, true, "toHswlString red value difference <= " + maxDiff);
+      equal (Math.abs(input.g - output.g) <= maxDiff, true, "toHswlString green value difference <= " + maxDiff);
+      equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHswlString blue value difference <= " + maxDiff);
+    }
+});
+
 test("HSV String", function() {
     for (var i = 0; i < conversions.length; i++) {
       var c =  conversions[i];
@@ -608,6 +636,46 @@ test("mostReadable", function () {
 
 });
 
+test("getReadable", function() {
+  function getReadableSetup(color, opts) {
+    var output = {}
+    output.color = tinycolor.getReadable(color, opts);
+    if (output.color) {
+      output.contrast = tinycolor.readability(color, output.color);
+    }
+    return output;
+  }
+  var maxDiff = 0.05;
+  var output;
+
+  output = getReadableSetup("#224466");
+  equal (Math.abs(output.contrast - 4.5) <= maxDiff, true, "defaults to 4.5 with no input contrast");
+
+  output = getReadableSetup("#224466", {level: "AA", size: "large"});
+  equal (Math.abs(output.contrast - 3) <= maxDiff, true, "AAlarge has contrast of 3");
+
+  output = getReadableSetup("#224466", {level: "AAA", size: "large"});
+  equal (Math.abs(output.contrast - 4.5) <= maxDiff, true, "AAAlarge has contrast of 4.5");
+
+  output = getReadableSetup("#224466", {level: "AA", size: "small"});
+  equal (Math.abs(output.contrast - 4.5) <= maxDiff, true, "AAsmall has contrast of 4.5");
+
+  output = getReadableSetup("#224466", {level: "AAA", size: "small"});
+  equal (Math.abs(output.contrast - 7) <= maxDiff, true, "AAAsmall has contrast of 7");
+
+  output = getReadableSetup("#eeaacc", {contrastRatio: 2.33});
+  equal (Math.abs(output.contrast - 2.33) <= maxDiff, true, "contrastRatio option allows arbitrary contrasts");
+
+  output = getReadableSetup("#eeaacc", {contrastRatio: 15});
+  equal (output.color, false, "returns false when a specified contrast can't be met");
+
+  output = getReadableSetup("#eeaacc", {contrastRatio: 15, returnBestFit: true});
+  equal (output.color.toHexString(), tinycolor("#000").toHexString(), "returns white/black when contrast can't be met and returnBestFit is set to true");
+
+  output = getReadableSetup("#99ff55", {contrastRatio: 4});
+  equal (Math.abs(output.color.toHsl().h - tinycolor("#99ff55").toHsl().h) <= 1, true, "output color matches the hue from input color");
+  equal (Math.abs(output.color.toHsl().s - tinycolor("#99ff55").toHsl().s) <= maxDiff, true, "output color matches the saturation from input color");
+});
 
 test("Filters", function () {
 

@@ -90,6 +90,18 @@ Here are some examples of string input:
     tinycolor("blanchedalmond");
     tinycolor("darkblue");
 
+### HSWL
+
+To facilitate working with WCAG 2.0 guidelines, the HSWL color space is provided. It behaves the same way as the HSL space with
+WCAG 2.0's perceived luminance (see `getLuminance`) replacing the Lightness component. This allows you to analyze and
+create colors at runtime that are suitable for text or complex details against any background. See `getReadable` for more.
+
+    tinycolor("hswl(0, 100%, 50%)");
+    tinycolor("hswla(0, 100%, 50%, .5)");
+    tinycolor("hswl (0 100% 100%)");
+    tinycolor("hswl 0 1 1");
+    tinycolor({ h: 0, s: 100, wl: 50 });
+
 ### Accepted Object Input
 
 If you are calling this from code, you may want to use object input.  Here are some examples of the different types of accepted object inputs:
@@ -98,6 +110,7 @@ If you are calling this from code, you may want to use object input.  Here are s
     { r: 255, g: 0, b: 0, a: .5 }
     { h: 0, s: 100, l: 50 }
     { h: 0, s: 100, v: 100 }
+    { h: 0, s: 100, wl: 50 }
 
 ## Methods
 
@@ -223,6 +236,18 @@ The following methods will return a property for the `alpha` value, which can be
     color.toHslString(); // "hsl(0, 100%, 50%)"
     color.setAlpha(0.5);
     color.toHslString(); // "hsla(0, 100%, 50%, 0.5)"
+
+### toHswl
+
+    var color = tinycolor("red");
+    color.toHswl(); // {h: 0, s: 1, wl: 0.2126, a: 1}
+
+### toHswlString
+
+    var color = tinycolor("red");
+    color.toHswlString(); // "hswl(0, 100%, 21%)"
+    color.setAlpha(0.5);
+    color.toHswlString(); // "hswla(0, 100%, 21%, 0.5)"
 
 ### toHex
 
@@ -449,7 +474,22 @@ If none of the colors in the list is readable, `mostReadable` will return the be
     tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString()   // "#2e0c3a",
     tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString()   // "#000000",
 
+#### getReadable
+
+`getReadable: Function(TinyColor, Object) -> TinyColor`.
+Given any valid tinycolor color and WCAG level+size or contrast parameters, returns a contrasting color with the same hue
+and saturation as the input color. Returns false if no satisfactory color can be found or the highest contrasting color
+(black or white) if `returnBestFit: true`.
+
+    // default contrast is 4.5
+    tinycolor.getReadable("rgb(150 60 120)").toRgbString();                                                     // "rgb(236, 207, 226)"
+    tinycolor.getReadable("rgb(150 60 120)", {contrastRatio: 6}).toRgbString();                                 // "rgb(250, 243, 248)"
+    // contrast will be 7, too high for this input color
+    tinycolor.getReadable("rgb(150 60 120)", {level: "AAA", size: "small"});                                    //false
+    tinycolor.getReadable("rgb(150 60 120)", {level: "AAA", size: "small", returnBestFit: true}).toRgbString(); // "rgb(255, 255, 255)"
+
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.
+
 
 ## Common operations
 
