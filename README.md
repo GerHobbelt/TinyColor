@@ -71,6 +71,8 @@ Here are some examples of string input:
     tinycolor("hsl(0, 100%, 50%)");
     tinycolor("hsl 0 1.0 0.5");
     tinycolor({ h: 0, s: 1, l: .5 });
+    tinycolor.fromRatio({ h: 1, s: 0, l: 0 });
+    tinycolor.fromRatio({ h: .5, s: .5, l: .5 });
 
 ### HSV, HSVA
 
@@ -79,6 +81,8 @@ Here are some examples of string input:
     tinycolor("hsv (0 100% 100%)");
     tinycolor("hsv 0 1 1");
     tinycolor({ h: 0, s: 100, v: 100 });
+    tinycolor.fromRatio({ h: 1, s: 0, v: 0 });
+    tinycolor.fromRatio({ h: .5, s: .5, v: .5 });
 
 ### Named
 
@@ -97,6 +101,26 @@ If you are calling this from code, you may want to use object input.  Here are s
 
 ## Methods
 
+### getFormat
+
+Returns the format used to create the tinycolor instance
+```js
+    var color = tinycolor("red");
+    color.getFormat(); // "name"
+    color = tinycolor({r:255, g:255, b:255});
+    color.getFormat(); // "rgb"
+```
+
+### getOriginalInput
+
+Returns the input passed into the constructer used to create the tinycolor instance
+```js
+    var color = tinycolor("red");
+    color.getOriginalInput(); // "red"
+    color = tinycolor({r:255, g:255, b:255});
+    color.getOriginalInput(); // "{r: 255, g: 255, b: 255}"
+```
+
 ### isValid
 
 Return a boolean indicating whether the color was successfully parsed.  Note: if the color is not valid then it will act like `black` when being used with other methods.
@@ -108,6 +132,16 @@ Return a boolean indicating whether the color was successfully parsed.  Note: if
     var color2 = tinycolor("not a color");
     color2.isValid(); // false
     color2.toString(); // "#000000"
+
+### getBrightness
+
+Returns the perceived brightness of a color, from `0-255`, as defined by [Web Content Accessibility Guidelines (Version 1.0)](http://www.w3.org/TR/AERT#color-contrast).
+
+    var color1 = tinycolor("#fff");
+    color1.getBrightness(); // 255
+
+    var color2 = tinycolor("#000");
+    color2.getBrightness(); // 0
 
 ### isLight
 
@@ -129,6 +163,16 @@ Return a boolean indicating whether the color's perceived brightness is dark.
     var color2 = tinycolor("#000");
     color2.isDark(); // true
 
+### getLuminance
+
+Returns the perceived luminance of a color, from `0-1` as defined by [Web Content Accessibility Guidelines (Version 2.0).](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef)
+
+    var color1 = tinycolor("#fff");
+    color1.getLuminance(); // 1
+
+    var color2 = tinycolor("#000");
+    color2.getLuminance(); // 0
+
 ### getAlpha
 
 Returns the alpha value of a color, from `0-1`.
@@ -142,16 +186,6 @@ Returns the alpha value of a color, from `0-1`.
     var color3 = tinycolor("transparent");
     color3.getAlpha(); // 0
 
-### getBrightness
-
-Returns the perceived brightness of a color, from `0-255`.
-
-    var color1 = tinycolor("#fff");
-    color1.getBrightness(); // 255
-
-    var color2 = tinycolor("#000");
-    color2.getBrightness(); // 0
-
 ### setAlpha
 
 Sets the alpha value on a current color.  Accepted range is in between `0-1`.
@@ -162,6 +196,10 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
     color.getAlpha(); // .5
     color.toRgbString(); // "rgba(255, 0, 0, .5)"
 
+### String Representations
+
+The following methods will return a property for the `alpha` value, which can be ignored: `toHsv`, `toHsl`, `toRgb`
+
 ### toHsv
 
     var color = tinycolor("red");
@@ -171,6 +209,8 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
 
     var color = tinycolor("red");
     color.toHsvString(); // "hsv(0, 100%, 100%)"
+    color.setAlpha(0.5);
+    color.toHsvString(); // "hsva(0, 100%, 100%, 0.5)"
 
 ### toHsl
 
@@ -181,6 +221,8 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
 
     var color = tinycolor("red");
     color.toHslString(); // "hsl(0, 100%, 50%)"
+    color.setAlpha(0.5);
+    color.toHslString(); // "hsla(0, 100%, 50%, 0.5)"
 
 ### toHex
 
@@ -211,6 +253,8 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
 
     var color = tinycolor("red");
     color.toRgbString(); // "rgb(255, 0, 0)"
+    color.setAlpha(0.5);
+    color.toRgbString(); // "rgba(255, 0, 0, 0.5)"
 
 ### toPercentageRgb
 
@@ -221,6 +265,8 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
 
     var color = tinycolor("red");
     color.toPercentageRgbString(); // "rgb(100%, 0%, 0%)"
+    color.setAlpha(0.5);
+    color.toPercentageRgbString(); // "rgba(100%, 0%, 0%, 0.5)"
 
 ### toName
 
@@ -238,7 +284,7 @@ Print to a string, depending on the input format.  You can also override this by
 
     var color1 = tinycolor("red");
     color1.toString(); // "red"
-    color1.toString("hsv"); // ""hsv(0, 100%, 100%)"
+    color1.toString("hsv"); // "hsv(0, 100%, 100%)"
 
     var color2 = tinycolor("rgb(255, 0, 0)");
     color2.toString(); // "rgb(255, 0, 0)"
@@ -358,23 +404,62 @@ Combination functions return an array of TinyColor objects unless otherwise note
     tinycolor.equals(color1, color2)
     tinycolor.mix(color1, color2, amount = 50)
 
-### readability
+### random
 
-`readable: function(TinyColor, TinyColor) -> Object`.  Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
+Returns a random color.
+```js
+var color = tinycolor.random();
+color.toRgb(); // "{r: 145, g: 40, b: 198, a: 1}"
+```
 
-    tinycolor.readability("#000", "#111"); // {brightness: 17, color: 51}
-    tinycolor.readability("#000", "#fff"); // {brightness: 255, color: 765}
+### Readability
 
-### isReadable
+TinyColor assesses readability based on the [Web Content Accessibility Guidelines (Version 2.0)](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef).
 
-`isReadable: function(TinyColor, TinyColor) -> Boolean`.  Ensure that foreground and background color combinations provide sufficient contrast.
+#### readability
 
-    tinycolor.isReadable("#000", "#111"); // false
+`readability: function(TinyColor, TinyColor) -> Object`.
+Returns the contrast ratio between two colors.
 
-### mostReadable
+    tinycolor.readability("#000", "#000"); // 1
+    tinycolor.readability("#000", "#111"); // 1.1121078324840545
+    tinycolor.readability("#000", "#fff"); // 21
 
+Use the values in your own calculations, or use one of the convenience functions below.
+
+#### isReadable
+
+`isReadable: function(TinyColor, TinyColor, Object) -> Boolean`.  Ensure that foreground and background color combinations meet WCAG guidelines. `Object` is optional, defaulting to `{level: "AA",size: "small"}`.  `level` can be `"AA"` or "AAA" and `size` can be `"small"` or `"large"`.
+
+Here are links to read more about the [AA](http://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html) and [AAA](http://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html) requirements.
+
+    tinycolor.isReadable("#000", "#111", {}); // false
+    tinycolor.isReadable("#ff0088", "#5c1a72",{level:"AA",size:"small"}); //false
+    tinycolor.isReadable("#ff0088", "#5c1a72",{level:"AA",size:"large"}), //true
+
+#### mostReadable
+
+`mostReadable: function(TinyColor, [TinyColor, Tinycolor ...], Object) -> Boolean`.
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
+If none of the colors in the list is readable, `mostReadable` will return the better of black or white if `includeFallbackColors:true`.
 
     tinycolor.mostReadable("#000", ["#f00", "#0f0", "#00f"]).toHexString(); // "#00ff00"
+    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
+    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
+    tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString()   // "#2e0c3a",
+    tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString()   // "#000000",
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.
+
+## Common operations
+
+### Cloning
+
+To clone a color, you can simply instantiate a new tinycolor with the old one's `toString` output.  The new color is a copy of the first one, so any changes to one won't affect the other.  See this example:
+
+    var color1 = tinycolor("#F00");
+    var color2 = tinycolor(color1.toString());
+    color2.setAlpha(.5);
+
+    color1.toString(); // "#ff0000"
+    color2.toString(); // "rgba(255, 0, 0, 0.5)"
