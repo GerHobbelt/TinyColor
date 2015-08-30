@@ -1,5 +1,5 @@
-// TinyColor v1.2.1
-// https://github.com/bgrins/TinyColor
+// tinycolor v1.2.1
+// https://github.com/bgrins/tinycolor
 // Brian Grinstead, MIT License
 
 (function (root, factory) {
@@ -29,18 +29,18 @@ var trimLeft = /^[\s,#]+/,
     mathMax = math.max,
     mathRandom = math.random;
 
-function TinyColor(color, opts) {
+var tinycolor = function tinycolor(color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
 
-    // If input is already a TinyColor, return itself
-    if (color instanceof TinyColor) {
+    // If input is already a tinycolor, return itself
+    if (color instanceof tinycolor) {
        return color;
     }
     // If we are called as a function, call using new instead
-    if (!(this instanceof TinyColor)) {
-        return new TinyColor(color, opts);
+    if (!(this instanceof tinycolor)) {
+        return new tinycolor(color, opts);
     }
 
     var rgb = inputToRGB(color);
@@ -63,9 +63,9 @@ function TinyColor(color, opts) {
 
     this._ok = rgb.ok;
     this._tc_id = tinyCounter++;
-}
+};
 
-TinyColor.prototype = {
+tinycolor.prototype = {
     isDark: function() {
         return this.getBrightness() < 128;
     },
@@ -185,7 +185,7 @@ TinyColor.prototype = {
         var gradientType = this._gradientType ? "GradientType = 1, " : "";
 
         if (secondColor) {
-            var s = new TinyColor(secondColor);
+            var s = new tinycolor(secondColor);
             secondHex8String = s.toHex8String();
         }
 
@@ -290,7 +290,7 @@ TinyColor.prototype = {
 
 // If input is an object, force 1 into "1.0" to handle ratios properly
 // String input requires "1.0" as input, so 1 will be treated as 1
-TinyColor.fromRatio = function(color, opts) {
+tinycolor.fromRatio = function(color, opts) {
     if (typeof color === "object") {
         var newColor = {};
         for (var i in color) {
@@ -306,7 +306,7 @@ TinyColor.fromRatio = function(color, opts) {
         color = newColor;
     }
 
-    return new TinyColor(color, opts);
+    return new tinycolor(color, opts);
 };
 
 // Given a string or object, convert that input to RGB
@@ -556,7 +556,7 @@ function rgbaToHex(r, g, b, a) {
 
 // `hswlToRgb`
 // Converts HSWL to RGB. WL in this function is the WCAG 2.0 specification for
-//   relative luminance, used in TinyColor.getLuminance. 
+//   relative luminance, used in tinycolor.getLuminance. 
 // *Assumes:* h is contained in [0, 360] (cyclically mapped) and s and wl are contained [0, 1]
 // *Returns:* { r, g, b } in the set [0, 255]
 function hswlToRgb(h, s, wl, passes) {
@@ -609,7 +609,7 @@ function hswlToRgb(h, s, wl, passes) {
     var target = wl;
     for (var i=0; i < passes; i++) {
         solveHswl(max, min, alpha);
-        wl += target - TinyColor({r: r.val*255, g: g.val*255, b: b.val*255}).getLuminance(); 
+        wl += target - tinycolor({r: r.val*255, g: g.val*255, b: b.val*255}).getLuminance(); 
     }
 
     return {
@@ -620,14 +620,14 @@ function hswlToRgb(h, s, wl, passes) {
 }
 
 // `equals`
-// Can be called with any TinyColor input
-TinyColor.equals = function (color1, color2) {
+// Can be called with any tinycolor input
+tinycolor.equals = function (color1, color2) {
     if (!color1 || !color2) { return false; }
-    return TinyColor(color1).toRgbString() == TinyColor(color2).toRgbString();
+    return tinycolor(color1).toRgbString() == tinycolor(color2).toRgbString();
 };
 
-TinyColor.random = function() {
-    return TinyColor.fromRatio({
+tinycolor.random = function() {
+    return tinycolor.fromRatio({
         r: mathRandom(),
         g: mathRandom(),
         b: mathRandom()
@@ -642,56 +642,56 @@ TinyColor.random = function() {
 
 function desaturate(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     hsl.s -= amount / 100;
     hsl.s = clamp01(hsl.s);
-    return new TinyColor(hsl);
+    return new tinycolor(hsl);
 }
 
 function saturate(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     hsl.s += amount / 100;
     hsl.s = clamp01(hsl.s);
-    return new TinyColor(hsl);
+    return new tinycolor(hsl);
 }
 
 function greyscale(color) {
-    return TinyColor(color).desaturate(100);
+    return tinycolor(color).desaturate(100);
 }
 
 function lighten (color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     hsl.l += amount / 100;
     hsl.l = clamp01(hsl.l);
-    return new TinyColor(hsl);
+    return new tinycolor(hsl);
 }
 
 function brighten(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var rgb = TinyColor(color).toRgb();
+    var rgb = tinycolor(color).toRgb();
     rgb.r = mathMax(0, mathMin(255, rgb.r - mathRound(255 * - (amount / 100))));
     rgb.g = mathMax(0, mathMin(255, rgb.g - mathRound(255 * - (amount / 100))));
     rgb.b = mathMax(0, mathMin(255, rgb.b - mathRound(255 * - (amount / 100))));
-    return new TinyColor(rgb);
+    return new tinycolor(rgb);
 }
 
 function darken (color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     hsl.l -= amount / 100;
     hsl.l = clamp01(hsl.l);
-    return new TinyColor(hsl);
+    return new tinycolor(hsl);
 }
 
 // Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
 // Values outside of this range will be wrapped into this range.
 function spin(color, amount) {
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     var hue = (hsl.h + amount) % 360;
     hsl.h = hue < 0 ? 360 + hue : hue;
-    return new TinyColor(hsl);
+    return new tinycolor(hsl);
 }
 
 // Combination Functions
@@ -700,39 +700,39 @@ function spin(color, amount) {
 // <https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js>
 
 function complement(color) {
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     hsl.h = (hsl.h + 180) % 360;
-    return new TinyColor(hsl);
+    return new tinycolor(hsl);
 }
 
 function triad(color) {
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     var h = hsl.h;
     return [
-        new TinyColor(color),
-        new TinyColor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
-        new TinyColor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
+        new tinycolor(color),
+        new tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
+        new tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
     ];
 }
 
 function tetrad(color) {
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     var h = hsl.h;
     return [
-        new TinyColor(color),
-        new TinyColor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
-        new TinyColor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
-        new TinyColor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
+        new tinycolor(color),
+        new tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
+        new tinycolor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
+        new tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
     ];
 }
 
 function splitcomplement(color) {
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     var h = hsl.h;
     return [
-        new TinyColor(color),
-        new TinyColor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
-        new TinyColor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
+        new tinycolor(color),
+        new tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
+        new tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
     ];
 }
 
@@ -740,26 +740,26 @@ function analogous(color, results, slices) {
     results = results || 6;
     slices = slices || 30;
 
-    var hsl = TinyColor(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     var part = 360 / slices;
-    var ret = [new TinyColor(color)];
+    var ret = [new tinycolor(color)];
 
     for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
         hsl.h = (hsl.h + part) % 360;
-        ret.push(new TinyColor(hsl));
+        ret.push(new tinycolor(hsl));
     }
     return ret;
 }
 
 function monochromatic(color, results) {
     results = results || 6;
-    var hsv = TinyColor(color).toHsv();
+    var hsv = tinycolor(color).toHsv();
     var h = hsv.h, s = hsv.s, v = hsv.v;
     var ret = [];
     var modification = 1 / results;
 
     while (results--) {
-        ret.push(new TinyColor({ h: h, s: s, v: v}));
+        ret.push(new tinycolor({ h: h, s: s, v: v}));
         v = (v + modification) % 1;
     }
 
@@ -769,11 +769,11 @@ function monochromatic(color, results) {
 // Utility Functions
 // ---------------------
 
-TinyColor.mix = function(color1, color2, amount) {
+tinycolor.mix = function(color1, color2, amount) {
     amount = (amount === 0) ? 0 : (amount || 50);
 
-    var rgb1 = TinyColor(color1).toRgb();
-    var rgb2 = TinyColor(color2).toRgb();
+    var rgb1 = tinycolor(color1).toRgb();
+    var rgb2 = tinycolor(color2).toRgb();
 
     var p = amount / 100;
     var w = p * 2 - 1;
@@ -798,7 +798,7 @@ TinyColor.mix = function(color1, color2, amount) {
         a: rgb2.a * p  + rgb1.a * (1 - p)
     };
 
-    return new TinyColor(rgba);
+    return new tinycolor(rgba);
 };
 
 
@@ -808,9 +808,9 @@ TinyColor.mix = function(color1, color2, amount) {
 
 // `contrast`
 // Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
-TinyColor.readability = function(color1, color2) {
-    var c1 = new TinyColor(color1);
-    var c2 = new TinyColor(color2);
+tinycolor.readability = function(color1, color2) {
+    var c1 = new tinycolor(color1);
+    var c2 = new tinycolor(color2);
     return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
 };
 
@@ -822,10 +822,10 @@ TinyColor.readability = function(color1, color2) {
 // If the entire object is absent, isReadable defaults to {level:"AA",size:"small"}.
 
 // *Example*
-//    TinyColor.isReadable("#000", "#111") => false
-//    TinyColor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
-TinyColor.isReadable = function(color1, color2, wcag2) {
-    var readability = TinyColor.readability(color1, color2);
+//    tinycolor.isReadable("#000", "#111") => false
+//    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
+tinycolor.isReadable = function(color1, color2, wcag2) {
+    var readability = tinycolor.readability(color1, color2);
     var wcag2Parms, out;
 
     out = false;
@@ -852,11 +852,11 @@ TinyColor.isReadable = function(color1, color2, wcag2) {
 // colors for that base, returns the most readable color.
 // Optionally returns Black or White if the most readable color is unreadable.
 // *Example*
-//    TinyColor.mostReadable(TinyColor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
-//    TinyColor.mostReadable(TinyColor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
-//    TinyColor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
-//    TinyColor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
-TinyColor.mostReadable = function(baseColor, colorList, args) {
+//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
+//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
+//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
+//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
+tinycolor.mostReadable = function(baseColor, colorList, args) {
     var bestColor = null;
     var bestScore = 0;
     var readability;
@@ -867,24 +867,24 @@ TinyColor.mostReadable = function(baseColor, colorList, args) {
     size = args.size;
 
     for (var i= 0; i < colorList.length ; i++) {
-        readability = TinyColor.readability(baseColor, colorList[i]);
+        readability = tinycolor.readability(baseColor, colorList[i]);
         if (readability > bestScore) {
             bestScore = readability;
-            bestColor = new TinyColor(colorList[i]);
+            bestColor = new tinycolor(colorList[i]);
         }
     }
 
-    if (TinyColor.isReadable(baseColor, bestColor, {"level":level,"size":size}) || !includeFallbackColors) {
+    if (tinycolor.isReadable(baseColor, bestColor, {"level":level,"size":size}) || !includeFallbackColors) {
         return bestColor;
     }
     else {
         args.includeFallbackColors=false;
-        return TinyColor.mostReadable(baseColor,["#fff", "#000"],args);
+        return tinycolor.mostReadable(baseColor,["#fff", "#000"],args);
     }
 };
 
 // `getReadable`
-// Given any valid TinyColor color and WCAG level+size or contrast parameters,
+// Given any valid tinycolor color and WCAG level+size or contrast parameters,
 //   returns a contrasting color with the same hue and saturation as the input color.
 // Returns false if no satisfactory color can be found or the highest contrasting
 //   color (black or white) if returnBestFit is true.
@@ -893,22 +893,22 @@ TinyColor.mostReadable = function(baseColor, colorList, args) {
 //          contrastRatio: [1, 21] 
 //          returnBestFit: true or false
 // *Examples*
-//    TinyColor.getReadable("rgb(150 60 120)").toRgbString(); // default contrast is 4.5
+//    tinycolor.getReadable("rgb(150 60 120)").toRgbString(); // default contrast is 4.5
 //      "rgb(236, 207, 226)"
-//    TinyColor.getReadable("rgb(150 60 120)", {contrastRatio: 6}).toRgbString();
+//    tinycolor.getReadable("rgb(150 60 120)", {contrastRatio: 6}).toRgbString();
 //      "rgb(250, 243, 248)"
-//    TinyColor.getReadable("rgb(150 60 120)", {level: "AAA", size: "small"}); // contrast will be 7
+//    tinycolor.getReadable("rgb(150 60 120)", {level: "AAA", size: "small"}); // contrast will be 7
 //      false
-//    TinyColor.getReadable("rgb(150 60 120)", {level: "AAA", size: "small", returnBestFit: true}).toRgbString();
+//    tinycolor.getReadable("rgb(150 60 120)", {level: "AAA", size: "small", returnBestFit: true}).toRgbString();
 //      "rgb(255, 255, 255)"
-TinyColor.getReadable = function(color, args) {
+tinycolor.getReadable = function(color, args) {
     args = args || {};
-    color = new TinyColor(color);
+    color = new tinycolor(color);
     var targetLuminance;
 
     var hswl = color.toHswl();
-    var blackContrast = TinyColor.readability(color, "black");
-    var whiteContrast = TinyColor.readability(color, "white");
+    var blackContrast = tinycolor.readability(color, "black");
+    var whiteContrast = tinycolor.readability(color, "white");
 
     var contrastRatio = args.contrastRatio;
     if (isNaN(contrastRatio)) {
@@ -926,12 +926,12 @@ TinyColor.getReadable = function(color, args) {
 
     // fail or return a fallback color if the target luminance is out of bounds
     if (targetLuminance < 0) {
-        return args.returnBestFit ? new TinyColor("black") : false;
+        return args.returnBestFit ? new tinycolor("black") : false;
     } else if (targetLuminance > 1) {
-        return args.returnBestFit ? new TinyColor("white") : false;
+        return args.returnBestFit ? new tinycolor("white") : false;
     }
 
-    return new TinyColor({h: hswl.h, s: hswl.s, wl: targetLuminance});
+    return new tinycolor({h: hswl.h, s: hswl.s, wl: targetLuminance});
 };
 
 // WCAG sizes and levels
@@ -946,7 +946,7 @@ var wcagContrastLevels = {
 // Big List of Colors
 // ------------------
 // <http://www.w3.org/TR/css3-color/#svg-color>
-var names = TinyColor.names = {
+var names = tinycolor.names = {
     aliceblue: "f0f8ff",
     antiquewhite: "faebd7",
     aqua: "0ff",
@@ -1099,7 +1099,7 @@ var names = TinyColor.names = {
 };
 
 // Make it easy to access colors via `hexNames[hex]`
-var hexNames = TinyColor.hexNames = flip(names);
+var hexNames = tinycolor.hexNames = flip(names);
 
 
 // Utilities
@@ -1242,7 +1242,7 @@ function stringInputToObject(color) {
     // Try to match string input using regular expressions.
     // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]
     // Just return an object and let the conversion functions handle that.
-    // This way the result will be the same whether the TinyColor is initialized with string or object.
+    // This way the result will be the same whether the tinycolor is initialized with string or object.
     var match;
     if ((match = matchers.rgb.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
@@ -1313,6 +1313,6 @@ function validateWCAG2Parms(parms) {
     return {"level":level, "size":size};
 }
 
-return TinyColor;
+return tinycolor;
 
 }));
