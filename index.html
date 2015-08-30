@@ -24,7 +24,15 @@
 				"format string:\t" + tiny.toString(),
 			].join("\n");
 
-			$("#code-output").text(output).css("border-color", tiny.toHexString());
+			var hswl = tiny.toHswl(); 
+			var background = tinycolor({h: hswl.h, s: hswl.s * 0.25, wl: hswl.wl * 0.25});
+			var font = tinycolor.getReadable(background, {level: "AAA", size: "small", returnBestFit: true});
+
+			$("#code-output").text(output).css({
+				"border-color": tiny.toHexString(),
+				"background": background.toHexString(),
+				"color": font.toHexString()
+			});
 
 			var filters = $("#filter-output").toggleClass("invisible", !tiny.isValid());
 
@@ -57,6 +65,18 @@
 			     mostReadable.toHexString()
 			 );
 
+			$("#text-sample").css("background", tiny.toHexString());
+			$("#text-sample #hdr").css("color", tinycolor.getReadable(tiny, {contrastRatio: 7, returnBestFit: true}).toHexString());
+			var fontSizes = [{l:'aa', s:'large'}, {l:'aaa', s:'large'}, {l:'aa', s:'small'}, {l:'aaa', s:'small'}];
+			$.each(fontSizes, function( i, fs ) {
+				var id = '#' + fs.l + '-' + fs.s;
+				var newColor =  tinycolor.getReadable(tiny, {level:fs.l, size: fs.s, returnBestFit: true});
+				$(id).css("color", newColor.toHexString())
+					.html("<span>" + fs.l.toUpperCase() + " " + fs.s + "</span>")
+					.append("<span>" + newColor.toHexString() + "</span>")
+					.append("<span>" + Math.round(tinycolor.readability(color, newColor) * 10) / 10 + "</span>");
+			});
+			
 			 var combines = $("#combine-output").toggleClass("invisible", !tiny.isValid());
 
 			 function colorArrayToHTML(arr) {
@@ -64,6 +84,7 @@
 			     return '<span style="background:'+e.toHexString()+'"></span>'
 			 	 }).join('');
 			 }
+
 
 			 var triad = tiny.triad();
 			 combines.find(".triad").html(colorArrayToHTML(triad));
@@ -189,6 +210,22 @@
     </div>
 	</div>
 
+	<div id='readability-output'>
+		<table><tr>
+			<th>WCAG 2 Text Readability</th>
+			<td><div id='text-sample'>
+				<p id='hdr'>
+					<span>Designation</span>
+					<span>Color</span>
+					<span>Contrast</span>
+				</p>
+				<p id='aa-large'></p>
+				<p id='aaa-large'></p>
+				<p id='aa-small'></p>
+				<p id='aaa-small'></p>
+			</div></td>
+		</tr></table>
+	</div>
 
 	<h3>Credit</h3>
 	<p>

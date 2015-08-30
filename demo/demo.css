@@ -21,3 +21,12 @@ hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
 .footer { text-align:center; padding-top:30px; font-style: italic; }
 
 #filter-output div, #combine-output span { width: 40px; height: 40px; display:inline-block; margin: 10px; }
+#text-sample { width: 400px; display: inline-block; margin: 10px; padding: 15px; line-height: 12px;}
+#text-sample p { line-height: 30px; margin: 0; }
+#text-sample p span { font-size: 14pt; display: inline-block; width: 39%; }
+#text-sample p span:last-child { width: 19%; }
+#text-sample #hdr span { font-size: 12pt; }
+#text-sample #aa-large span:first-child { font-size: 18pt; }
+#text-sample #aa-small span:first-child { font-size: 12pt; }
+#text-sample #aaa-large span:first-child { font-size: 14pt; font-weight: bold; }
+#text-sample #aaa-small span:first-child { font-size: 10pt; }

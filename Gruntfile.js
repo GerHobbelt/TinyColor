@@ -30,6 +30,7 @@ module.exports = function(grunt) {
       options: {
         browser: true,
         sub: true,
+        newcap: false,
         globals: {
           jQuery: true
         }
@@ -54,6 +55,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-docco');
 
   grunt.registerTask('default', ['jshint', 'qunit']);
-  grunt.registerTask('build', ['jshint', 'qunit', 'uglify', 'docco']);
+  grunt.registerTask('version-bump', ['jshint', 'qunit', 'uglify', 'docco']);
 
 };
