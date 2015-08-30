@@ -27,8 +27,8 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p>TinyColor v1.2.1
-<a href="https://github.com/bgrins/TinyColor">https://github.com/bgrins/TinyColor</a>
+              <p>tinycolor v1.2.1
+<a href="https://github.com/bgrins/tinycolor">https://github.com/bgrins/tinycolor</a>
 Brian Grinstead, MIT License</p>
 
             </div>
@@ -100,7 +100,7 @@ like Node.</p>
     mathMax = math.max,
     mathRandom = math.random;
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TinyColor</span>(<span class="hljs-params">color, opts</span>) </span>{
+<span class="hljs-keyword">var</span> tinycolor = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tinycolor</span>(<span class="hljs-params">color, opts</span>) </span>{
 
     color = (color) ? color : <span class="hljs-string">''</span>;
     opts = opts || { };</pre></div></div>
@@ -114,11 +114,11 @@ like Node.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>If input is already a TinyColor, return itself</p>
+              <p>If input is already a tinycolor, return itself</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (color <span class="hljs-keyword">instanceof</span> TinyColor) {
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (color <span class="hljs-keyword">instanceof</span> tinycolor) {
        <span class="hljs-keyword">return</span> color;
     }</pre></div></div>
             
@@ -135,8 +135,8 @@ like Node.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> TinyColor)) {
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(color, opts);
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> tinycolor)) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(color, opts);
     }
 
     <span class="hljs-keyword">var</span> rgb = inputToRGB(color);
@@ -171,9 +171,9 @@ If it was supposed to be 128, this was already taken care of by <code>inputToRgb
 
     <span class="hljs-keyword">this</span>._ok = rgb.ok;
     <span class="hljs-keyword">this</span>._tc_id = tinyCounter++;
-}
+};
 
-TinyColor.prototype = {
+tinycolor.prototype = {
     isDark: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getBrightness() &lt; <span class="hljs-number">128</span>;
     },
@@ -290,9 +290,12 @@ TinyColor.prototype = {
         <span class="hljs-keyword">return</span> { r: mathRound(<span class="hljs-keyword">this</span>._r), g: mathRound(<span class="hljs-keyword">this</span>._g), b: mathRound(<span class="hljs-keyword">this</span>._b), a: <span class="hljs-keyword">this</span>._a };
     },
     toRgbString: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">this</span>._a == <span class="hljs-number">1</span>) ?
+        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">this</span>._a === <span class="hljs-number">1</span>) ?
           <span class="hljs-string">"rgb("</span>  + mathRound(<span class="hljs-keyword">this</span>._r) + <span class="hljs-string">", "</span> + mathRound(<span class="hljs-keyword">this</span>._g) + <span class="hljs-string">", "</span> + mathRound(<span class="hljs-keyword">this</span>._b) + <span class="hljs-string">")"</span> :
           <span class="hljs-string">"rgba("</span> + mathRound(<span class="hljs-keyword">this</span>._r) + <span class="hljs-string">", "</span> + mathRound(<span class="hljs-keyword">this</span>._g) + <span class="hljs-string">", "</span> + mathRound(<span class="hljs-keyword">this</span>._b) + <span class="hljs-string">", "</span> + <span class="hljs-keyword">this</span>._roundA + <span class="hljs-string">")"</span>;
+    },
+    toRgbaString: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"rgba("</span> + mathRound(<span class="hljs-keyword">this</span>._r) + <span class="hljs-string">", "</span> + mathRound(<span class="hljs-keyword">this</span>._g) + <span class="hljs-string">", "</span> + mathRound(<span class="hljs-keyword">this</span>._b) + <span class="hljs-string">", "</span> + <span class="hljs-keyword">this</span>._roundA + <span class="hljs-string">")"</span>;
     },
     toPercentageRgb: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="hljs-keyword">return</span> { r: mathRound(bound01(<span class="hljs-keyword">this</span>._r, <span class="hljs-number">255</span>) * <span class="hljs-number">100</span>) + <span class="hljs-string">"%"</span>, g: mathRound(bound01(<span class="hljs-keyword">this</span>._g, <span class="hljs-number">255</span>) * <span class="hljs-number">100</span>) + <span class="hljs-string">"%"</span>, b: mathRound(bound01(<span class="hljs-keyword">this</span>._b, <span class="hljs-number">255</span>) * <span class="hljs-number">100</span>) + <span class="hljs-string">"%"</span>, a: <span class="hljs-keyword">this</span>._a };
@@ -319,7 +322,7 @@ TinyColor.prototype = {
         <span class="hljs-keyword">var</span> gradientType = <span class="hljs-keyword">this</span>._gradientType ? <span class="hljs-string">"GradientType = 1, "</span> : <span class="hljs-string">""</span>;
 
         <span class="hljs-keyword">if</span> (secondColor) {
-            <span class="hljs-keyword">var</span> s = <span class="hljs-keyword">new</span> TinyColor(secondColor);
+            <span class="hljs-keyword">var</span> s = <span class="hljs-keyword">new</span> tinycolor(secondColor);
             secondHex8String = s.toHex8String();
         }
 
@@ -449,7 +452,7 @@ String input requires “1.0” as input, so 1 will be treated as 1</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>TinyColor.fromRatio = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color, opts</span>) </span>{
+            <div class="content"><div class='highlight'><pre>tinycolor.fromRatio = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color, opts</span>) </span>{
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> color === <span class="hljs-string">"object"</span>) {
         <span class="hljs-keyword">var</span> newColor = {};
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> color) {
@@ -465,7 +468,7 @@ String input requires “1.0” as input, so 1 will be treated as 1</p>
         color = newColor;
     }
 
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(color, opts);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(color, opts);
 };</pre></div></div>
             
         </li>
@@ -862,7 +865,7 @@ Returns an 8 character hex</p>
               </div>
               <p><code>hswlToRgb</code>
 Converts HSWL to RGB. WL in this function is the WCAG 2.0 specification for
-  relative luminance, used in TinyColor.getLuminance. 
+  relative luminance, used in tinycolor.getLuminance. 
 <em>Assumes:</em> h is contained in [0, 360] (cyclically mapped) and s and wl are contained [0, 1]
 <em>Returns:</em> { r, g, b } in the set [0, 255]</p>
 
@@ -966,7 +969,7 @@ all values must be recalculated</p>
     <span class="hljs-keyword">var</span> target = wl;
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i &lt; passes; i++) {
         solveHswl(max, min, alpha);
-        wl += target - TinyColor({r: r.val*<span class="hljs-number">255</span>, g: g.val*<span class="hljs-number">255</span>, b: b.val*<span class="hljs-number">255</span>}).getLuminance(); 
+        wl += target - tinycolor({r: r.val*<span class="hljs-number">255</span>, g: g.val*<span class="hljs-number">255</span>, b: b.val*<span class="hljs-number">255</span>}).getLuminance(); 
     }
 
     <span class="hljs-keyword">return</span> {
@@ -986,17 +989,17 @@ all values must be recalculated</p>
                 <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p><code>equals</code>
-Can be called with any TinyColor input</p>
+Can be called with any tinycolor input</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>TinyColor.equals = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">color1, color2</span>) </span>{
+            <div class="content"><div class='highlight'><pre>tinycolor.equals = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">color1, color2</span>) </span>{
     <span class="hljs-keyword">if</span> (!color1 || !color2) { <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; }
-    <span class="hljs-keyword">return</span> TinyColor(color1).toRgbString() == TinyColor(color2).toRgbString();
+    <span class="hljs-keyword">return</span> tinycolor(color1).toRgbString() == tinycolor(color2).toRgbString();
 };
 
-TinyColor.random = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">return</span> TinyColor.fromRatio({
+tinycolor.random = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> tinycolor.fromRatio({
         r: mathRandom(),
         g: mathRandom(),
         b: mathRandom()
@@ -1033,47 +1036,47 @@ TinyColor.random = <span class="hljs-function"><span class="hljs-keyword">functi
             <div class="content"><div class='highlight'><pre>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">desaturate</span>(<span class="hljs-params">color, amount</span>) </span>{
     amount = (amount === <span class="hljs-number">0</span>) ? <span class="hljs-number">0</span> : (amount || <span class="hljs-number">10</span>);
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     hsl.s -= amount / <span class="hljs-number">100</span>;
     hsl.s = clamp01(hsl.s);
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(hsl);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(hsl);
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">saturate</span>(<span class="hljs-params">color, amount</span>) </span>{
     amount = (amount === <span class="hljs-number">0</span>) ? <span class="hljs-number">0</span> : (amount || <span class="hljs-number">10</span>);
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     hsl.s += amount / <span class="hljs-number">100</span>;
     hsl.s = clamp01(hsl.s);
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(hsl);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(hsl);
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">greyscale</span>(<span class="hljs-params">color</span>) </span>{
-    <span class="hljs-keyword">return</span> TinyColor(color).desaturate(<span class="hljs-number">100</span>);
+    <span class="hljs-keyword">return</span> tinycolor(color).desaturate(<span class="hljs-number">100</span>);
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lighten</span> (<span class="hljs-params">color, amount</span>) </span>{
     amount = (amount === <span class="hljs-number">0</span>) ? <span class="hljs-number">0</span> : (amount || <span class="hljs-number">10</span>);
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     hsl.l += amount / <span class="hljs-number">100</span>;
     hsl.l = clamp01(hsl.l);
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(hsl);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(hsl);
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">brighten</span>(<span class="hljs-params">color, amount</span>) </span>{
     amount = (amount === <span class="hljs-number">0</span>) ? <span class="hljs-number">0</span> : (amount || <span class="hljs-number">10</span>);
-    <span class="hljs-keyword">var</span> rgb = TinyColor(color).toRgb();
+    <span class="hljs-keyword">var</span> rgb = tinycolor(color).toRgb();
     rgb.r = mathMax(<span class="hljs-number">0</span>, mathMin(<span class="hljs-number">255</span>, rgb.r - mathRound(<span class="hljs-number">255</span> * - (amount / <span class="hljs-number">100</span>))));
     rgb.g = mathMax(<span class="hljs-number">0</span>, mathMin(<span class="hljs-number">255</span>, rgb.g - mathRound(<span class="hljs-number">255</span> * - (amount / <span class="hljs-number">100</span>))));
     rgb.b = mathMax(<span class="hljs-number">0</span>, mathMin(<span class="hljs-number">255</span>, rgb.b - mathRound(<span class="hljs-number">255</span> * - (amount / <span class="hljs-number">100</span>))));
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(rgb);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(rgb);
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">darken</span> (<span class="hljs-params">color, amount</span>) </span>{
     amount = (amount === <span class="hljs-number">0</span>) ? <span class="hljs-number">0</span> : (amount || <span class="hljs-number">10</span>);
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     hsl.l -= amount / <span class="hljs-number">100</span>;
     hsl.l = clamp01(hsl.l);
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(hsl);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(hsl);
 }</pre></div></div>
             
         </li>
@@ -1091,10 +1094,10 @@ Values outside of this range will be wrapped into this range.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">spin</span>(<span class="hljs-params">color, amount</span>) </span>{
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     <span class="hljs-keyword">var</span> hue = (hsl.h + amount) % <span class="hljs-number">360</span>;
     hsl.h = hue &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">360</span> + hue : hue;
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(hsl);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(hsl);
 }</pre></div></div>
             
         </li>
@@ -1126,39 +1129,39 @@ Values outside of this range will be wrapped into this range.</p>
             
             <div class="content"><div class='highlight'><pre>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complement</span>(<span class="hljs-params">color</span>) </span>{
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     hsl.h = (hsl.h + <span class="hljs-number">180</span>) % <span class="hljs-number">360</span>;
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(hsl);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(hsl);
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">triad</span>(<span class="hljs-params">color</span>) </span>{
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     <span class="hljs-keyword">var</span> h = hsl.h;
     <span class="hljs-keyword">return</span> [
-        <span class="hljs-keyword">new</span> TinyColor(color),
-        <span class="hljs-keyword">new</span> TinyColor({ h: (h + <span class="hljs-number">120</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l }),
-        <span class="hljs-keyword">new</span> TinyColor({ h: (h + <span class="hljs-number">240</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l })
+        <span class="hljs-keyword">new</span> tinycolor(color),
+        <span class="hljs-keyword">new</span> tinycolor({ h: (h + <span class="hljs-number">120</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l }),
+        <span class="hljs-keyword">new</span> tinycolor({ h: (h + <span class="hljs-number">240</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l })
     ];
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tetrad</span>(<span class="hljs-params">color</span>) </span>{
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     <span class="hljs-keyword">var</span> h = hsl.h;
     <span class="hljs-keyword">return</span> [
-        <span class="hljs-keyword">new</span> TinyColor(color),
-        <span class="hljs-keyword">new</span> TinyColor({ h: (h + <span class="hljs-number">90</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l }),
-        <span class="hljs-keyword">new</span> TinyColor({ h: (h + <span class="hljs-number">180</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l }),
-        <span class="hljs-keyword">new</span> TinyColor({ h: (h + <span class="hljs-number">270</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l })
+        <span class="hljs-keyword">new</span> tinycolor(color),
+        <span class="hljs-keyword">new</span> tinycolor({ h: (h + <span class="hljs-number">90</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l }),
+        <span class="hljs-keyword">new</span> tinycolor({ h: (h + <span class="hljs-number">180</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l }),
+        <span class="hljs-keyword">new</span> tinycolor({ h: (h + <span class="hljs-number">270</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l })
     ];
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">splitcomplement</span>(<span class="hljs-params">color</span>) </span>{
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     <span class="hljs-keyword">var</span> h = hsl.h;
     <span class="hljs-keyword">return</span> [
-        <span class="hljs-keyword">new</span> TinyColor(color),
-        <span class="hljs-keyword">new</span> TinyColor({ h: (h + <span class="hljs-number">72</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l}),
-        <span class="hljs-keyword">new</span> TinyColor({ h: (h + <span class="hljs-number">216</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l})
+        <span class="hljs-keyword">new</span> tinycolor(color),
+        <span class="hljs-keyword">new</span> tinycolor({ h: (h + <span class="hljs-number">72</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l}),
+        <span class="hljs-keyword">new</span> tinycolor({ h: (h + <span class="hljs-number">216</span>) % <span class="hljs-number">360</span>, s: hsl.s, l: hsl.l})
     ];
 }
 
@@ -1166,26 +1169,26 @@ Values outside of this range will be wrapped into this range.</p>
     results = results || <span class="hljs-number">6</span>;
     slices = slices || <span class="hljs-number">30</span>;
 
-    <span class="hljs-keyword">var</span> hsl = TinyColor(color).toHsl();
+    <span class="hljs-keyword">var</span> hsl = tinycolor(color).toHsl();
     <span class="hljs-keyword">var</span> part = <span class="hljs-number">360</span> / slices;
-    <span class="hljs-keyword">var</span> ret = [<span class="hljs-keyword">new</span> TinyColor(color)];
+    <span class="hljs-keyword">var</span> ret = [<span class="hljs-keyword">new</span> tinycolor(color)];
 
     <span class="hljs-keyword">for</span> (hsl.h = ((hsl.h - (part * results &gt;&gt; <span class="hljs-number">1</span>)) + <span class="hljs-number">720</span>) % <span class="hljs-number">360</span>; --results; ) {
         hsl.h = (hsl.h + part) % <span class="hljs-number">360</span>;
-        ret.push(<span class="hljs-keyword">new</span> TinyColor(hsl));
+        ret.push(<span class="hljs-keyword">new</span> tinycolor(hsl));
     }
     <span class="hljs-keyword">return</span> ret;
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">monochromatic</span>(<span class="hljs-params">color, results</span>) </span>{
     results = results || <span class="hljs-number">6</span>;
-    <span class="hljs-keyword">var</span> hsv = TinyColor(color).toHsv();
+    <span class="hljs-keyword">var</span> hsv = tinycolor(color).toHsv();
     <span class="hljs-keyword">var</span> h = hsv.h, s = hsv.s, v = hsv.v;
     <span class="hljs-keyword">var</span> ret = [];
     <span class="hljs-keyword">var</span> modification = <span class="hljs-number">1</span> / results;
 
     <span class="hljs-keyword">while</span> (results--) {
-        ret.push(<span class="hljs-keyword">new</span> TinyColor({ h: h, s: s, v: v}));
+        ret.push(<span class="hljs-keyword">new</span> tinycolor({ h: h, s: s, v: v}));
         v = (v + modification) % <span class="hljs-number">1</span>;
     }
 
@@ -1218,11 +1221,11 @@ Values outside of this range will be wrapped into this range.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-TinyColor.mix = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color1, color2, amount</span>) </span>{
+tinycolor.mix = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color1, color2, amount</span>) </span>{
     amount = (amount === <span class="hljs-number">0</span>) ? <span class="hljs-number">0</span> : (amount || <span class="hljs-number">50</span>);
 
-    <span class="hljs-keyword">var</span> rgb1 = TinyColor(color1).toRgb();
-    <span class="hljs-keyword">var</span> rgb2 = TinyColor(color2).toRgb();
+    <span class="hljs-keyword">var</span> rgb1 = tinycolor(color1).toRgb();
+    <span class="hljs-keyword">var</span> rgb2 = tinycolor(color2).toRgb();
 
     <span class="hljs-keyword">var</span> p = amount / <span class="hljs-number">100</span>;
     <span class="hljs-keyword">var</span> w = p * <span class="hljs-number">2</span> - <span class="hljs-number">1</span>;
@@ -1247,7 +1250,7 @@ TinyColor.mix = <span class="hljs-function"><span class="hljs-keyword">function<
         a: rgb2.a * p  + rgb1.a * (<span class="hljs-number">1</span> - p)
     };
 
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor(rgba);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor(rgba);
 };</pre></div></div>
             
         </li>
@@ -1290,9 +1293,9 @@ Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)<
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>TinyColor.readability = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color1, color2</span>) </span>{
-    <span class="hljs-keyword">var</span> c1 = <span class="hljs-keyword">new</span> TinyColor(color1);
-    <span class="hljs-keyword">var</span> c2 = <span class="hljs-keyword">new</span> TinyColor(color2);
+            <div class="content"><div class='highlight'><pre>tinycolor.readability = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color1, color2</span>) </span>{
+    <span class="hljs-keyword">var</span> c1 = <span class="hljs-keyword">new</span> tinycolor(color1);
+    <span class="hljs-keyword">var</span> c2 = <span class="hljs-keyword">new</span> tinycolor(color2);
     <span class="hljs-keyword">return</span> (<span class="hljs-built_in">Math</span>.max(c1.getLuminance(),c2.getLuminance())+<span class="hljs-number">0.05</span>) / (<span class="hljs-built_in">Math</span>.min(c1.getLuminance(),c2.getLuminance())+<span class="hljs-number">0.05</span>);
 };</pre></div></div>
             
@@ -1324,13 +1327,13 @@ If the entire object is absent, isReadable defaults to {level:”AA”,size:”s
                 <a class="pilcrow" href="#section-41">&#182;</a>
               </div>
               <p><em>Example</em>
-   TinyColor.isReadable(“#000”, “#111”) =&gt; false
-   TinyColor.isReadable(“#000”, “#111”,{level:”AA”,size:”large”}) =&gt; false</p>
+   tinycolor.isReadable(“#000”, “#111”) =&gt; false
+   tinycolor.isReadable(“#000”, “#111”,{level:”AA”,size:”large”}) =&gt; false</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>TinyColor.isReadable = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color1, color2, wcag2</span>) </span>{
-    <span class="hljs-keyword">var</span> readability = TinyColor.readability(color1, color2);
+            <div class="content"><div class='highlight'><pre>tinycolor.isReadable = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color1, color2, wcag2</span>) </span>{
+    <span class="hljs-keyword">var</span> readability = tinycolor.readability(color1, color2);
     <span class="hljs-keyword">var</span> wcag2Parms, out;
 
     out = <span class="hljs-literal">false</span>;
@@ -1366,14 +1369,14 @@ Given a base color and a list of possible foreground or background
 colors for that base, returns the most readable color.
 Optionally returns Black or White if the most readable color is unreadable.
 <em>Example</em>
-   TinyColor.mostReadable(TinyColor.mostReadable(“#123”, [“#124”, “#125”],{includeFallbackColors:false}).toHexString(); // “#112255”
-   TinyColor.mostReadable(TinyColor.mostReadable(“#123”, [“#124”, “#125”],{includeFallbackColors:true}).toHexString();  // “#ffffff”
-   TinyColor.mostReadable(“#a8015a”, [“#faf3f3”],{includeFallbackColors:true,level:”AAA”,size:”large”}).toHexString(); // “#faf3f3”
-   TinyColor.mostReadable(“#a8015a”, [“#faf3f3”],{includeFallbackColors:true,level:”AAA”,size:”small”}).toHexString(); // “#ffffff”</p>
+   tinycolor.mostReadable(tinycolor.mostReadable(“#123”, [“#124”, “#125”],{includeFallbackColors:false}).toHexString(); // “#112255”
+   tinycolor.mostReadable(tinycolor.mostReadable(“#123”, [“#124”, “#125”],{includeFallbackColors:true}).toHexString();  // “#ffffff”
+   tinycolor.mostReadable(“#a8015a”, [“#faf3f3”],{includeFallbackColors:true,level:”AAA”,size:”large”}).toHexString(); // “#faf3f3”
+   tinycolor.mostReadable(“#a8015a”, [“#faf3f3”],{includeFallbackColors:true,level:”AAA”,size:”small”}).toHexString(); // “#ffffff”</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>TinyColor.mostReadable = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">baseColor, colorList, args</span>) </span>{
+            <div class="content"><div class='highlight'><pre>tinycolor.mostReadable = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">baseColor, colorList, args</span>) </span>{
     <span class="hljs-keyword">var</span> bestColor = <span class="hljs-literal">null</span>;
     <span class="hljs-keyword">var</span> bestScore = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">var</span> readability;
@@ -1384,19 +1387,19 @@ Optionally returns Black or White if the most readable color is unreadable.
     size = args.size;
 
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i= <span class="hljs-number">0</span>; i &lt; colorList.length ; i++) {
-        readability = TinyColor.readability(baseColor, colorList[i]);
+        readability = tinycolor.readability(baseColor, colorList[i]);
         <span class="hljs-keyword">if</span> (readability &gt; bestScore) {
             bestScore = readability;
-            bestColor = <span class="hljs-keyword">new</span> TinyColor(colorList[i]);
+            bestColor = <span class="hljs-keyword">new</span> tinycolor(colorList[i]);
         }
     }
 
-    <span class="hljs-keyword">if</span> (TinyColor.isReadable(baseColor, bestColor, {<span class="hljs-string">"level"</span>:level,<span class="hljs-string">"size"</span>:size}) || !includeFallbackColors) {
+    <span class="hljs-keyword">if</span> (tinycolor.isReadable(baseColor, bestColor, {<span class="hljs-string">"level"</span>:level,<span class="hljs-string">"size"</span>:size}) || !includeFallbackColors) {
         <span class="hljs-keyword">return</span> bestColor;
     }
     <span class="hljs-keyword">else</span> {
         args.includeFallbackColors=<span class="hljs-literal">false</span>;
-        <span class="hljs-keyword">return</span> TinyColor.mostReadable(baseColor,[<span class="hljs-string">"#fff"</span>, <span class="hljs-string">"#000"</span>],args);
+        <span class="hljs-keyword">return</span> tinycolor.mostReadable(baseColor,[<span class="hljs-string">"#fff"</span>, <span class="hljs-string">"#000"</span>],args);
     }
 };</pre></div></div>
             
@@ -1410,7 +1413,7 @@ Optionally returns Black or White if the most readable color is unreadable.
                 <a class="pilcrow" href="#section-43">&#182;</a>
               </div>
               <p><code>getReadable</code>
-Given any valid TinyColor color and WCAG level+size or contrast parameters,
+Given any valid tinycolor color and WCAG level+size or contrast parameters,
   returns a contrasting color with the same hue and saturation as the input color.
 Returns false if no satisfactory color can be found or the highest contrasting
   color (black or white) if returnBestFit is true.
@@ -1419,25 +1422,25 @@ Options: level:         “AA” or “AAA”
          contrastRatio: [1, 21] 
          returnBestFit: true or false
 <em>Examples</em>
-   TinyColor.getReadable(“rgb(150 60 120)”).toRgbString(); // default contrast is 4.5
+   tinycolor.getReadable(“rgb(150 60 120)”).toRgbString(); // default contrast is 4.5
      “rgb(236, 207, 226)”
-   TinyColor.getReadable(“rgb(150 60 120)”, {contrastRatio: 6}).toRgbString();
+   tinycolor.getReadable(“rgb(150 60 120)”, {contrastRatio: 6}).toRgbString();
      “rgb(250, 243, 248)”
-   TinyColor.getReadable(“rgb(150 60 120)”, {level: “AAA”, size: “small”}); // contrast will be 7
+   tinycolor.getReadable(“rgb(150 60 120)”, {level: “AAA”, size: “small”}); // contrast will be 7
      false
-   TinyColor.getReadable(“rgb(150 60 120)”, {level: “AAA”, size: “small”, returnBestFit: true}).toRgbString();
+   tinycolor.getReadable(“rgb(150 60 120)”, {level: “AAA”, size: “small”, returnBestFit: true}).toRgbString();
      “rgb(255, 255, 255)”</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>TinyColor.getReadable = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color, args</span>) </span>{
+            <div class="content"><div class='highlight'><pre>tinycolor.getReadable = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">color, args</span>) </span>{
     args = args || {};
-    color = <span class="hljs-keyword">new</span> TinyColor(color);
+    color = <span class="hljs-keyword">new</span> tinycolor(color);
     <span class="hljs-keyword">var</span> targetLuminance;
 
     <span class="hljs-keyword">var</span> hswl = color.toHswl();
-    <span class="hljs-keyword">var</span> blackContrast = TinyColor.readability(color, <span class="hljs-string">"black"</span>);
-    <span class="hljs-keyword">var</span> whiteContrast = TinyColor.readability(color, <span class="hljs-string">"white"</span>);
+    <span class="hljs-keyword">var</span> blackContrast = tinycolor.readability(color, <span class="hljs-string">"black"</span>);
+    <span class="hljs-keyword">var</span> whiteContrast = tinycolor.readability(color, <span class="hljs-string">"white"</span>);
 
     <span class="hljs-keyword">var</span> contrastRatio = args.contrastRatio;
     <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(contrastRatio)) {
@@ -1479,12 +1482,12 @@ derived from <a href="http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativelum
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (targetLuminance &lt; <span class="hljs-number">0</span>) {
-        <span class="hljs-keyword">return</span> args.returnBestFit ? <span class="hljs-keyword">new</span> TinyColor(<span class="hljs-string">"black"</span>) : <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">return</span> args.returnBestFit ? <span class="hljs-keyword">new</span> tinycolor(<span class="hljs-string">"black"</span>) : <span class="hljs-literal">false</span>;
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (targetLuminance &gt; <span class="hljs-number">1</span>) {
-        <span class="hljs-keyword">return</span> args.returnBestFit ? <span class="hljs-keyword">new</span> TinyColor(<span class="hljs-string">"white"</span>) : <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">return</span> args.returnBestFit ? <span class="hljs-keyword">new</span> tinycolor(<span class="hljs-string">"white"</span>) : <span class="hljs-literal">false</span>;
     }
 
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TinyColor({h: hswl.h, s: hswl.s, wl: targetLuminance});
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> tinycolor({h: hswl.h, s: hswl.s, wl: targetLuminance});
 };</pre></div></div>
             
         </li>
@@ -1533,7 +1536,7 @@ derived from <a href="http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativelum
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> names = TinyColor.names = {
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> names = tinycolor.names = {
     aliceblue: <span class="hljs-string">"f0f8ff"</span>,
     antiquewhite: <span class="hljs-string">"faebd7"</span>,
     aqua: <span class="hljs-string">"0ff"</span>,
@@ -1698,7 +1701,7 @@ derived from <a href="http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativelum
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> hexNames = TinyColor.hexNames = flip(names);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> hexNames = tinycolor.hexNames = flip(names);</pre></div></div>
             
         </li>
         
@@ -2100,7 +2103,7 @@ based on detected format.  Returns <code>{ r, g, b }</code> or <code>{ h, s, l }
               <p>Try to match string input using regular expressions.
 Keep most of the number bounding out of this function - don’t worry about [0,1] or [0,100] or [0,360]
 Just return an object and let the conversion functions handle that.
-This way the result will be the same whether the TinyColor is initialized with string or object.</p>
+This way the result will be the same whether the tinycolor is initialized with string or object.</p>
 
             </div>
             
@@ -2187,7 +2190,7 @@ If input parms are invalid, return {“level”:”AA”, “size”:”small”
     <span class="hljs-keyword">return</span> {<span class="hljs-string">"level"</span>:level, <span class="hljs-string">"size"</span>:size};
 }
 
-<span class="hljs-keyword">return</span> TinyColor;
+<span class="hljs-keyword">return</span> tinycolor;
 
 }));</pre></div></div>
             
