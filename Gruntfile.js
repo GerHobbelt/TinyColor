@@ -30,6 +30,7 @@ module.exports = function(grunt) {
       options: {
         browser: true,
         sub: true,
+        newcap: false,
         globals: {
           jQuery: true
         }
