@@ -1,5 +1,5 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.4",
   "name": "tinytinycolor",
   "description": "Even Tinier Color Parsing and Manipulation",
   "url": "https://github.com/autopulated/TinyTinyColor",
@@ -20,7 +20,7 @@
   ],
   "main": "./tinytinycolor.js",
   "files": [
-      "tinytinycolor.js"
+    "tinytinycolor.js"
   ],
   "engines": {
     "node": "*"
