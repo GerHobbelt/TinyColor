@@ -19,7 +19,9 @@
     "James Crosby <autopulated@gmail.com>"
   ],
   "main": "./tinytinycolor.js",
-  "directories": {},
+  "files": [
+      "tinytinycolor.js"
+  ],
   "engines": {
     "node": "*"
   },
