@@ -1,8 +1,0 @@
-{
-  "name": "tinytinycolor",
-  "version": "0.9.17",
-  "main": ["./tinytinycolor.js"],
-  "dependencies": {
-
-  }
-}
